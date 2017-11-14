@@ -7,6 +7,17 @@
 </head>
 
 <body>
+  <form method="post" onsubmit="nowa();" name="form2">
+   <input  type="submit" value="Stwórz nową bazę lub wyzerój starą" action="nowa()">
+    </form>
+    <?php 
+    
+        function nowa(){
+            echo "tak";
+     $p = mysqli_connect('localhost', 'root','','elo') or Die("Nie udało się połączyć z bazą lub serwerem bazy");
+    mysqli_query($p,'CREATE OR REPLACE TABLE klienci (id INT AUTO_INCREMENT PRIMARY KEY, imie VARCHAR(15) NOT NULL, nazwisko VARCHAR(15), data_ur DATE);');
+    }
+    ?>
 
     <center>
 
@@ -18,7 +29,7 @@
             Podaj nazwisko: <input type="text" size="30" name="nazwisko"> <br>
             Podaj datę urodzenia: <input type="date" size="30" name="data_ur"> <br>
 
-            <input type="submit" name="submit" value="wyślij!" action="zap()">
+            <input type="submit" name="submit1" value="wyślij!" action="zap()">
         </form>
 
 
@@ -26,12 +37,15 @@
     </center>
 
     <?php
+    
+    
+    
     $id = $_POST['id'];
     $imie = $_POST['imie'];
     $nazwisko = $_POST['nazwisko'];
     $data_ur = $_POST['data_ur'];
 
-    $p = mysqli_connect('localhost', 'root','','elo') or Die("Nie udało się połączyć z bazą lub serwerem bazy"); 
+    $p = mysqli_connect('localhost', 'root','','elo') or Die("Nie udało się połączyć z bazą lub serwerem bazy");
     $q = mysqli_query($p,'SELECT * FROM klienci') or Die("błąd zapytania");
    
     while($r=mysqli_fetch_assoc($q)){
@@ -40,7 +54,7 @@
     echo "Nazwisko: ".$r['nazwisko'].".<br>";
     echo "Data urodzenia: ".$r['data_ur'].".<br>";  
     }
-  if (isset($_POST['submit'])){
+  if (isset($_POST['submit1'])){
     $zapytanie = "INSERT INTO klienci VALUES('$id','$imie','$nazwisko','$data_ur')";
     $wpis = mysqli_query($p, $zapytanie ) or DIE("Błąd wpisu");
   }
